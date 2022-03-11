@@ -9,10 +9,10 @@ class UnitTests(unittest.TestCase):
                         "username": "string",
                         "email": "string@gmail.com"
                         }
-                        
+
     def test_api_unavailable(self):
         response = requests.get('https://api.kauri.finance')
-        self.assertNotEqual(response.status_code, 200, "API is not currently available")
+        self.assertEqual(response.status_code, 200, "API is not currently available")
 
     #@unittest.skipIf(requests.get('https://api.kauri.finance').status_code == 200,
     #                        "API is not currently available")
