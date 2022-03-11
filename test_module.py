@@ -1,8 +1,7 @@
 import unittest
 import requests
 
-@unittest.skipIf(requests.get('https://api.kauri.finance').status_code != 200,
-                            "API is not currently available")
+
 class UnitTests(unittest.TestCase):
     def setUp(self):
         self.good_data ={
@@ -10,7 +9,13 @@ class UnitTests(unittest.TestCase):
                         "username": "string",
                         "email": "string@gmail.com"
                         }
+                        
+    def test_api_unavailable(self):
+        response = requests.get('https://api.kauri.finance')
+        self.assertNotEqual(response.status_code, 200, "API is not currently available")
 
+    #@unittest.skipIf(requests.get('https://api.kauri.finance').status_code == 200,
+    #                        "API is not currently available")
     def test_invalid_password(self):
         for bad_password in (["1234bR#"], ('1234bR#'), {1234:1234}):
             self.good_data["password"] = bad_password
@@ -20,6 +25,8 @@ class UnitTests(unittest.TestCase):
             self.assertNotEqual(actual, unexpected, 'Expected failing the creation \
                              with wrong password')
 
+    #@unittest.skipIf(requests.get('https://api.kauri.finance').status_code == 200,
+    #                        "API is not currently available")
     def test_invalid_username(self):
         for bad_username in (("string"), 12345, ["string"]):
             self.good_data["username"] = bad_username
@@ -29,6 +36,8 @@ class UnitTests(unittest.TestCase):
             self.assertNotEqual(actual, unexpected, 'Expected failing the creation \
                              with wrong username')
 
+    #@unittest.skipIf(requests.get('https://api.kauri.finance').status_code == 200,
+    #                        "API is not currently available")
     def test_invalid_email(self):
         for bad_email in ("str13@gmail.com", ["str1@gmail.com"], {"str1@gmail.com":1234}, ("str1@gmail.com")):
             self.good_data["email"] = bad_email
